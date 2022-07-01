@@ -21,7 +21,7 @@ export class Inertia implements InertiaContract {
   constructor(private app: ApplicationContract, private ctx: HttpContextContract, private config: InertiaConfig) {}
 
   public static share(data: SharedData) {
-    Inertia.sharedData = data;
+    Inertia.sharedData = { ...Inertia.sharedData, ...data };
     return Inertia;
   }
 
@@ -209,6 +209,6 @@ export class Inertia implements InertiaContract {
   public location(url: string) {
     const { response } = this.ctx;
 
-    response.header(HEADERS.INERTIA_LOCATION, url).conflict();
+    response.removeHeader(HEADERS.INERTIA_HEADER).header(HEADERS.INERTIA_LOCATION, url).conflict();
   }
 }
